@@ -2,7 +2,7 @@
 //Group Members: Daniel Mondok, Braeden Baldwin & Xavier Alvarenga
 //Date: October 24, 2025
 //Course: Data Structures and Algorithm Analysis (CSCI 3200)
-//Project Description: Project 2 is meant to help convert an infix expression to a postfix expression utilizing a stack as a means to handle operator precedence.
+//Project Description: Project 2 is meant to help users with converting an infix expression to a postfix expression by utilizing a stack to handle operator precedence.
 //--------------------------------------------------------------
 package CSCI3200;
 
@@ -18,36 +18,38 @@ public class ConvertInfixToPostfix {
 		
 		for(int i = 0; i < input.length();i++) {
 			current = input.charAt(i);
-			if(checkPrecedence(current)==-1 && !isParenthesis(current) && current!=' ') { //skips over whitespaces
-				result+=(current + " ");
+			if(checkPrecedence(current)==-1 && !isParenthesis(current) && current!=' ') { //skips over any whitespace
+				result+=(current + " "); //adds operand to the result
 			}
 			else {
 				if(current=='(') {
-					stack.push(Character.toString(current));
+					stack.push(Character.toString(current)); //pushes '(' into the stack
 				}
 				else if (checkPrecedence(current)>0) {
+					//pops any higher or equal precedence operators from the stack
 					while(!stack.isEmpty() && !stack.peek().equals("(") && (checkPrecedence(stack.peek().charAt(0)) >= checkPrecedence(current))) {
 						result+=(stack.pop() + " ");
 					}
-					stack.push(Character.toString(current));
+					stack.push(Character.toString(current)); //pushes the current operator
 				}
 				else if (current==')') {
+					//pops until '(' is found
 					while(!stack.isEmpty() && (!(stack.peek().charAt(0)=='('))) {
 						result+=(stack.pop() + " ");
 					}
-					stack.pop();
+					stack.pop(); //once '(' is found, '(' is removed
 				}
 			}
 		}
 		
 		while(!stack.isEmpty()) {
-			result += (stack.pop() + " ");
+			result += (stack.pop() + " "); //adds any remaining operators
 		}
 		
 		return result;
 	}
 	
-	public static int checkPrecedence(char operator) {
+	public static int checkPrecedence(char operator) { //returns operator precedence or not (if it's not an operator, -1 is returned)
         switch (operator) {
             case '+':
             case '-':
@@ -57,7 +59,7 @@ public class ConvertInfixToPostfix {
             case '%':
                 return 2; 
             default:
-                return -1; //not a valid operator, can be used to check if the character is an operator
+                return -1; //not a valid operator
         }
 	}
 	
@@ -65,9 +67,9 @@ public class ConvertInfixToPostfix {
 		switch(paren) {
 		case '(':
 		case ')':
-			return true;
+			return true; //is a parenthesis
 		default:
-			return false;
+			return false; //not a parenthesis
 		}
 	}
 }
