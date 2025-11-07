@@ -10,7 +10,7 @@ import java.util.Stack;
 
 public class ConvertInfixToPostfix {
     
-    public static String convertToPostfix (String input){
+    public String convertToPostfix (String input){
 		char current;
 		String result = "";
 		Stack<String> stack = new Stack<String>();
